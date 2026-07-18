@@ -34,11 +34,11 @@ export function Nav() {
         className="pointer-events-auto flex w-full items-center justify-between gap-2 rounded-full pl-4 pr-2 md:w-auto"
         style={{
           height: 56,
-          backgroundColor: scrolled ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.74)",
-          border: "1px solid rgba(23,25,27,0.08)",
+          backgroundColor: scrolled ? "rgba(19,18,16,0.82)" : "rgba(19,18,16,0.58)",
+          border: "1px solid rgba(255,255,255,0.09)",
           backdropFilter: "saturate(180%) blur(20px)",
           WebkitBackdropFilter: "saturate(180%) blur(20px)",
-          boxShadow: scrolled ? "0 8px 26px rgba(23,25,27,0.09)" : "0 4px 14px rgba(23,25,27,0.05)",
+          boxShadow: scrolled ? "0 8px 26px rgba(0,0,0,0.42)" : "0 4px 14px rgba(0,0,0,0.22)",
           transition: "background-color 220ms cubic-bezier(.16,1,.3,1), box-shadow 220ms cubic-bezier(.16,1,.3,1)",
         }}
       >
@@ -47,7 +47,7 @@ export function Nav() {
           <span className="font-display text-[18px] font-semibold" style={{ color: "var(--ink)" }}>Timex</span>
         </a>
 
-        <span aria-hidden className="mx-2 hidden h-5 w-px md:block" style={{ backgroundColor: "rgba(23,25,27,0.1)" }} />
+        <span aria-hidden className="mx-2 hidden h-5 w-px md:block" style={{ backgroundColor: "rgba(255,255,255,0.13)" }} />
 
         <nav className="hidden items-center gap-1 md:flex">
           {LINKS.map((l) => (
@@ -80,9 +80,9 @@ export function Nav() {
           href={DOWNLOAD}
           className="ml-2 inline-flex h-10 items-center gap-2 rounded-full pl-3.5 pr-5 text-[15px] font-medium"
           style={{
-            backgroundColor: scrolled ? "var(--ink)" : "transparent",
-            color: scrolled ? "var(--bg)" : "var(--ink)",
-            border: scrolled ? "1px solid var(--ink)" : "1px solid rgba(23,25,27,0.18)",
+            backgroundColor: scrolled ? "var(--amber)" : "transparent",
+            color: scrolled ? "var(--amber-ink)" : "var(--ink)",
+            border: scrolled ? "1px solid var(--amber)" : "1px solid rgba(255,255,255,0.2)",
             transition: "background-color 200ms ease, color 200ms ease, border-color 200ms ease",
           }}
         >

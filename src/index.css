@@ -5,16 +5,19 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
-  --bg: #ffffff;
-  --surface: #f6f6f4;
-  --border: #e7e7e3;
-  --border-strong: #d3d3cd;
-  --ink: #16160f;
-  --muted: #6b6b64;
-  --faint: #9c9c93;
+  color-scheme: dark;
+  /* Deep flat near-black. The terminal windows (#171717) sit a hair brighter,
+     so they read as raised objects. No glow, no gradients. */
+  --bg: #0c0b0a;
+  --surface: #131210;
+  --border: #26241f;
+  --border-strong: #34302a;
+  --ink: #ece7dd;      /* warm off-white — headings / primary text */
+  --muted: #9b938a;    /* body */
+  --faint: #5f5951;    /* meta, captions */
   --terminal: #171717;
-  --amber: #e8a55d;
+  --amber: #e8a55d;    /* the one accent */
+  --amber-ink: #17140f;
 }
 
 html {
@@ -26,7 +29,7 @@ html {
 body {
   margin: 0;
   background: var(--bg);
-  color: var(--ink);
+  color: var(--muted);
   font-family: 'Hanken Grotesk', system-ui, sans-serif;
   font-size: 18px;
   line-height: 1.6;
@@ -34,10 +37,9 @@ body {
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
-::selection { background: var(--ink); color: var(--bg); }
+::selection { background: var(--amber); color: var(--amber-ink); }
 
-/* ── Swiss grid: one full-width container, one 12-col grid, everywhere.
-     Full-bleed so sections read massive; generous consistent side margins. ── */
+/* ── Swiss grid: one full-width container, one 12-col grid, everywhere ── */
 .page-container {
   width: 100%;
   max-width: 2200px;
@@ -69,18 +71,27 @@ body {
 .section-heading {
   font-family: 'Schibsted Grotesk', system-ui, sans-serif;
   font-weight: 600;
-  font-size: clamp(34px, 5vw, 82px);
-  line-height: 1.02;
+  font-size: clamp(34px, 5vw, 78px);
+  line-height: 1.03;
   letter-spacing: -0.026em;
   color: var(--ink);
 }
 .section-subhead {
   margin-top: 22px;
-  max-width: 58ch;
+  max-width: 56ch;
   font-size: clamp(18px, 1.4vw, 22px);
   line-height: 1.55;
   color: var(--muted);
 }
+.mono-tag {
+  font-family: 'Roboto Mono', ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 12px;
+  color: var(--amber);
+}
+
+@keyframes caret-blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
