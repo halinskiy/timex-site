@@ -4,7 +4,7 @@ import { Panel } from "./Panel";
 import { fmtTime, fmtDuration, fmtStart, fmtFooterDate } from "./format";
 import { taskDuration, type TxSnapshot, type TxTask } from "./engine";
 import type { UseTimexResult } from "./useTimex";
-import { ExportView, HelpView, StatsView } from "./views";
+import { ExportView, HelpView, StatsView, ProjectView, DatesView, EditView, NotificationView } from "./views";
 
 const C = TX.color;
 const G = TX.glyph;
@@ -159,7 +159,7 @@ export function TimexTerminal({ tx }: { tx: UseTimexResult }) {
   const { snap } = tx;
   return (
     <div
-      className="flex h-full flex-col gap-5 px-3 pb-3 pt-4 text-[13px] leading-[1.5]"
+      className="flex h-full flex-col gap-6 px-3 pb-3 pt-4 text-[13px] leading-[1.5]"
       style={{ background: TX.color.bg, fontFamily: TX.font }}
       onMouseDown={tx.markInteract}
     >
@@ -174,6 +174,14 @@ export function TimexTerminal({ tx }: { tx: UseTimexResult }) {
           <HelpView />
         ) : snap.view === "stats" ? (
           <StatsView snap={snap} />
+        ) : snap.view === "project" ? (
+          <ProjectView />
+        ) : snap.view === "date" ? (
+          <DatesView />
+        ) : snap.view === "edit" ? (
+          <EditView snap={snap} />
+        ) : snap.view === "notification" ? (
+          <NotificationView />
         ) : (
           <Timeline snap={snap} />
         )}

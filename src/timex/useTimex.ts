@@ -90,6 +90,12 @@ export function useTimex(opts: { autoplay?: boolean } = {}): UseTimexResult {
     lastInteractRef.current = performance.now();
     autopilotRef.current = false;
     const eng = engine;
+    if ((e.key === "ArrowUp" || e.key === "ArrowDown") && eng.snapshot().view === "edit") {
+      e.preventDefault();
+      eng.editMove(e.key === "ArrowUp" ? -1 : 1);
+      force();
+      return;
+    }
     if (e.key === "Enter") {
       e.preventDefault();
       eng.submit(eng.snapshot().input);

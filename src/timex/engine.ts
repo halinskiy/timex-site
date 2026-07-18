@@ -22,13 +22,38 @@ export const STATE_COMMANDS: Record<TxState, string[]> = {
 const IDLE_PLACEHOLDER = "  What are you working on?  (/start to begin)";
 const RUN_PLACEHOLDER = "  What are you working on?  ";
 
-export type TxView = "timeline" | "export" | "help" | "stats";
+export type TxView = "timeline" | "export" | "help" | "stats" | "project" | "date" | "edit" | "notification";
 
 const VIEW_TITLE: Record<TxView, string> = {
   timeline: "Timeline",
   export: "Export",
   help: "Help",
   stats: "Statistics",
+  project: "Projects",
+  date: "History",
+  edit: "Edit Tasks",
+  notification: "Notifications",
+};
+
+const VIEW_PLACEHOLDER: Record<TxView, string> = {
+  timeline: "",
+  export: "  select option · /back",
+  help: "  /back to return",
+  stats: "  /back to return",
+  project: "  Enter number or type new project name · /back to return",
+  date: "  Enter number to view date · /back to return",
+  edit: "  ↑/↓ to select · Enter to rename · /back to return",
+  notification: "  Enter number or custom interval · /back to return",
+};
+
+const VIEW_COMMANDS: Record<string, TxView> = {
+  "/export": "export",
+  "/help": "help",
+  "/stats": "stats",
+  "/project": "project",
+  "/date": "date",
+  "/edit": "edit",
+  "/notification": "notification",
 };
 
 export interface TxSnapshot {
@@ -42,6 +67,7 @@ export interface TxSnapshot {
   now: Date;
   view: TxView;
   viewTitle: string;
+  editIndex: number;
 }
 
 export class TimexEngine {
@@ -54,6 +80,7 @@ export class TimexEngine {
   private toastUntil = 0;
   private clock = new Date();
   private view: TxView = "timeline";
+  private editIndex = 0;
 
   // ── clock ────────────────────────────────────────────────────────────
   /** Advance simulated time by dt seconds (drives the timer + task duration). */
@@ -72,7 +99,7 @@ export class TimexEngine {
       input: this.input,
       placeholder:
         this.view !== "timeline"
-          ? "  /back to return"
+          ? VIEW_PLACEHOLDER[this.view]
           : this.state === "idle"
           ? IDLE_PLACEHOLDER
           : RUN_PLACEHOLDER,
@@ -80,7 +107,15 @@ export class TimexEngine {
       now: this.clock,
       view: this.view,
       viewTitle: VIEW_TITLE[this.view],
+      editIndex: this.editIndex,
     };
+  }
+
+  editMove(dir: number): void {
+    if (this.view !== "edit") return;
+    const n = (this.tasks.length ? this.tasks : this.lastSession).length;
+    if (n === 0) return;
+    this.editIndex = Math.max(0, Math.min(n - 1, this.editIndex + dir));
   }
 
   reset(): void {
@@ -91,6 +126,7 @@ export class TimexEngine {
     this.input = "";
     this.toast = null;
     this.view = "timeline";
+    this.editIndex = 0;
   }
 
   setInput(v: string): void {
@@ -145,16 +181,9 @@ export class TimexEngine {
       this.view = "timeline";
       return;
     }
-    if (cmd === "/export") {
-      this.view = "export";
-      return;
-    }
-    if (cmd === "/help") {
-      this.view = "help";
-      return;
-    }
-    if (cmd === "/stats") {
-      this.view = "stats";
+    if (cmd in VIEW_COMMANDS) {
+      this.view = VIEW_COMMANDS[cmd];
+      if (this.view === "edit") this.editIndex = 0;
       return;
     }
     if (this.view !== "timeline") return; // inside a view, only the above apply

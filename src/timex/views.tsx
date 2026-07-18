@@ -1,6 +1,8 @@
 import { TX } from "./tokens";
-import { fmtTime, fmtDuration } from "./format";
+import { fmtTime, fmtDuration, fmtStart } from "./format";
 import { taskDuration, type TxSnapshot } from "./engine";
+
+const G = TX.glyph;
 
 // Sub-views redrawn 1:1 from timex.py: _render_export (l.1463), _render_help
 // (l.2236), _render_stats (l.2885). See TIMEX-REPLICA.md.
@@ -155,6 +157,114 @@ export function StatsView({ snap }: { snap: TxSnapshot }) {
           ))}
         </>
       )}
+    </div>
+  );
+}
+
+// ── /project (timex.py _render_project, l.2537) ──────────────────────────────
+const DEMO_PROJECTS = ["Corder landing", "One Page", "Internal ops"];
+const ACTIVE_PROJECT = "One Page";
+
+export function ProjectView() {
+  return (
+    <div className="px-1">
+      <div style={{ color: C.text, fontWeight: 600 }}>Current: {ACTIVE_PROJECT}</div>
+      {DEMO_PROJECTS.map((name, i) => (
+        <div key={name}>
+          <Sep />
+          <div className="flex justify-between">
+            <span>
+              <span style={{ color: C.accent, fontWeight: 600 }}>{i + 1}.</span>{" "}
+              <span style={{ color: C.text }}>{name}</span>
+              {name === ACTIVE_PROJECT && <span style={{ color: C.accent }}> •</span>}
+            </span>
+            <span style={{ color: C.dim }}>{G.idle} IDLE</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── /notification (timex.py _render_notification, l.2273) ────────────────────
+const NOTIF_PRESETS = ["10m", "15m", "20m", "30m", "45m", "1h", "2h"];
+const NOTIF_CURRENT = "30m";
+
+export function NotificationView() {
+  return (
+    <div className="px-1">
+      <div style={{ color: C.text, fontWeight: 600 }}>Current: every {NOTIF_CURRENT}</div>
+      <Sep />
+      <div>
+        <span style={{ color: C.accent, fontWeight: 600 }}>1.</span> <span style={{ color: C.text }}>Off</span>
+      </div>
+      {NOTIF_PRESETS.map((label, i) => (
+        <div key={label}>
+          <Sep />
+          <div>
+            <span style={{ color: C.accent, fontWeight: 600 }}>{i + 2}.</span>{" "}
+            <span style={{ color: C.text }}>Every {label}</span>
+            {label === NOTIF_CURRENT && <span style={{ color: C.accent }}> •</span>}
+          </div>
+        </div>
+      ))}
+      <div className="mt-2" style={{ color: C.dim }}>{"  "}Or type custom interval (e.g. 25m, 1h30m)</div>
+    </div>
+  );
+}
+
+// ── /date (timex.py _render_dates_list, l.858) ───────────────────────────────
+const DEMO_DATES: [string, string, number][] = [
+  ["Fri, Jul 17 2026", "8:32:10", 5],
+  ["Tue, Jul 14 2026", "6:19:52", 9],
+  ["Mon, Jul 07 2026", "3:48:20", 4],
+];
+
+export function DatesView() {
+  return (
+    <div className="px-1">
+      {DEMO_DATES.map(([date, total, n], i) => (
+        <div key={date}>
+          {i > 0 && <Sep />}
+          <div className="flex justify-between">
+            <span style={{ color: C.text, fontWeight: 600 }}>{i + 1}. {date}</span>
+            <span className="tabular-nums" style={{ color: C.accent }}>{total}</span>
+          </div>
+          <div style={{ color: C.dim }}>{"   "}{n} task{n !== 1 ? "s" : ""}</div>
+        </div>
+      ))}
+      <div className="mt-2" style={{ color: C.dim }}>{"  "}Enter number to view · /back to return</div>
+    </div>
+  );
+}
+
+// ── /edit (timex.py _render_edit, l.2397) ────────────────────────────────────
+export function EditView({ snap }: { snap: TxSnapshot }) {
+  const tasks = snap.tasks.length ? snap.tasks : snap.lastSessionTasks;
+  if (!tasks.length) {
+    return <div className="px-1 py-3" style={{ color: C.white }}>{"  "}No tasks to edit yet</div>;
+  }
+  return (
+    <div className="px-1">
+      {tasks.map((t, i) => {
+        const selected = i === snap.editIndex;
+        const current = snap.tasks.length > 0 && i === tasks.length - 1 && t.activeEnd === null;
+        return (
+          <div key={i}>
+            {i > 0 && <Sep />}
+            <div className="flex justify-between">
+              <span style={{ color: C.dim }}>{fmtStart(t.wallStart)}</span>
+              <span className="tabular-nums" style={{ color: C.paused }}>{fmtDuration(taskDuration(t, snap.active))}</span>
+            </div>
+            {selected ? (
+              <div style={{ color: C.accent, fontWeight: 600 }}>{"► "}{t.name}</div>
+            ) : (
+              <div style={{ color: C.text }}>{"  "}{t.name}</div>
+            )}
+            {current && null}
+          </div>
+        );
+      })}
     </div>
   );
 }
