@@ -16,9 +16,9 @@ function Section({ id, bg = "bg", children }: { id?: string; bg?: "bg" | "surfac
 const Divider = () => <hr className="section-divider" />;
 
 // A framed Timex window, sized generously so all content is always visible.
-function Window({ kind, width = 400, height = 680 }: { kind: "timeline" | "export" | "stats" | "project"; width?: number; height?: number }) {
+function Window({ kind, width = 400, height = 680, className = "" }: { kind: "timeline" | "export" | "stats" | "project"; width?: number; height?: number; className?: string }) {
   return (
-    <div style={{ width, height, maxWidth: "100%", filter: "drop-shadow(0 50px 90px rgba(20,20,15,0.20))" }}>
+    <div className={className} style={{ width, height, maxWidth: "100%", filter: "drop-shadow(0 50px 90px rgba(20,20,15,0.20))" }}>
       <Screen kind={kind} className="h-full w-full" />
     </div>
   );
@@ -53,9 +53,9 @@ export default function App() {
               <p className="mt-8 text-[15px]" style={{ color: "var(--faint)" }}>Free · Signed &amp; notarized by Apple · macOS 12+</p>
             </Reveal>
           </div>
-          <div className="col-span-12 flex justify-center lg:col-span-6 lg:justify-end">
+          <div className="col-span-12 min-w-0 lg:col-span-6">
             <Reveal delay={0.12}>
-              <Window kind="timeline" width={410} height={700} />
+              <Window kind="timeline" width={410} height={700} className="mx-auto lg:ml-auto lg:mr-0" />
             </Reveal>
           </div>
         </div>
@@ -79,9 +79,9 @@ export default function App() {
               </ul>
             </Reveal>
           </div>
-          <div className="col-span-12 flex justify-center lg:col-span-6 lg:col-start-7 lg:justify-end">
+          <div className="col-span-12 min-w-0 lg:col-span-6 lg:col-start-7">
             <Reveal delay={0.12}>
-              <Window kind="export" width={400} height={660} />
+              <Window kind="export" width={400} height={660} className="mx-auto lg:ml-auto lg:mr-0" />
             </Reveal>
           </div>
         </div>
