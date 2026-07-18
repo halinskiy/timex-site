@@ -12,9 +12,9 @@ module.exports = {
     extend: {
       gradientColorStops: ({ theme }) => theme("colors"),
       fontFamily: {
-        sans: ['"Space Grotesk"', "system-ui", "sans-serif"],
-        body: ['Inter', "system-ui", "sans-serif"],
-        mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"],
+        sans: ['"General Sans"', "system-ui", "sans-serif"],
+        display: ['"Satoshi"', '"General Sans"', "system-ui", "sans-serif"],
+        mono: ['"Roboto Mono"', "ui-monospace", "Menlo", "monospace"],
       },
       fontSize: {
         h1: ["4rem", { lineHeight: "1.05", letterSpacing: "-0.03em" }],
