@@ -1,25 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap');
-@import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=satoshi@400,500,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
+  --paper: #f1f3f2;
+  --snow: #fbfcfb;
+  --ink: #17191b;
+  --graphite: #565a5e;
+  --mist: #9ba1a3;
+  --hairline: #e1e4e1;
+  --terminal: #171717;
+  --terminal-text: #d4d4d4;
+  --amber: #e8a55d;
 }
 
-html,
-body,
-#root {
-  height: 100%;
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  background: #0b0a09;
-  color: #e8e5e0;
-  font-family: 'General Sans', system-ui, sans-serif;
+  background: var(--paper);
+  color: var(--graphite);
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.font-display {
+  font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+.font-mono-label {
+  font-family: 'Roboto Mono', ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

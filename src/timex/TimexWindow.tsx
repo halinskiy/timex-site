@@ -34,7 +34,7 @@ export function TimexWindow({
         </div>
         <span
           className="pointer-events-none absolute left-1/2 -translate-x-1/2 text-[13px] font-medium"
-          style={{ color: "#8a8a8a", fontFamily: "'General Sans', system-ui, sans-serif" }}
+          style={{ color: "#8a8a8a", fontFamily: "system-ui, -apple-system, sans-serif" }}
         >
           {title}
         </span>
