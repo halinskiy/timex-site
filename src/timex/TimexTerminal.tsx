@@ -167,7 +167,7 @@ export function TimexTerminal({ tx }: { tx: UseTimexResult }) {
         <StatusLine snap={snap} />
       </Panel>
 
-      <Panel title={snap.viewTitle} titleColor={C.text} className="min-h-0 flex-1 overflow-hidden" bodyClassName="h-full overflow-y-auto px-2 pb-2 pt-3">
+      <Panel title={snap.viewTitle} titleColor={C.text} className="min-h-0 flex-1" bodyClassName="h-full overflow-y-auto px-2 pb-2 pt-4">
         {snap.view === "export" ? (
           <ExportView snap={snap} />
         ) : snap.view === "help" ? (

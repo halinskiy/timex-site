@@ -6,14 +6,14 @@
 
 :root {
   color-scheme: light;
-  --paper: #f1f3f2;
-  --snow: #fbfcfb;
-  --ink: #17191b;
-  --graphite: #565a5e;
-  --mist: #9ba1a3;
-  --hairline: #e1e4e1;
+  --bg: #ffffff;
+  --surface: #f6f6f4;
+  --border: #e7e7e3;
+  --border-strong: #d3d3cd;
+  --ink: #16160f;
+  --muted: #6b6b64;
+  --faint: #9c9c93;
   --terminal: #171717;
-  --terminal-text: #d4d4d4;
   --amber: #e8a55d;
 }
 
@@ -25,8 +25,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
-  color: var(--graphite);
+  background: var(--bg);
+  color: var(--ink);
   font-family: 'Hanken Grotesk', system-ui, sans-serif;
   font-size: 18px;
   line-height: 1.6;
@@ -34,24 +34,54 @@ body {
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
+::selection { background: var(--ink); color: var(--bg); }
 
-::selection {
-  background: var(--ink);
-  color: var(--paper);
+/* ── Swiss grid: one full-width container, one 12-col grid, everywhere.
+     Full-bleed so sections read massive; generous consistent side margins. ── */
+.page-container {
+  width: 100%;
+  max-width: 2200px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+@media (min-width: 768px) { .page-container { padding-inline: 48px; } }
+@media (min-width: 1280px) { .page-container { padding-inline: 72px; } }
+
+.u-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+}
+@media (min-width: 1280px) { .u-grid { column-gap: 48px; } }
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+  width: 100%;
+  margin: 0;
 }
 
-.font-display {
+.display {
   font-family: 'Schibsted Grotesk', system-ui, sans-serif;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.022em;
+  color: var(--ink);
 }
-.font-mono-label {
-  font-family: 'Roboto Mono', ui-monospace, monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+.section-heading {
+  font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(34px, 5vw, 82px);
+  line-height: 1.02;
+  letter-spacing: -0.026em;
+  color: var(--ink);
+}
+.section-subhead {
+  margin-top: 22px;
+  max-width: 58ch;
+  font-size: clamp(18px, 1.4vw, 22px);
+  line-height: 1.55;
+  color: var(--muted);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
 }

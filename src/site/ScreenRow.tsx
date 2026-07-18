@@ -14,13 +14,6 @@ const SLIDE_MS = 700;
 const CYCLE: ScreenKind[] = ["timeline", "stats", "export", "project"];
 const NODES = 6; // enough to always fill the faded tail
 
-const CAPTION: Record<ScreenKind, string> = {
-  timeline: "01 / TIMELINE",
-  stats: "02 / STATISTICS",
-  export: "03 / EXPORT",
-  project: "04 / PROJECTS",
-};
-
 function initialOrder(): ScreenKind[] {
   return Array.from({ length: NODES }, (_, i) => CYCLE[i % CYCLE.length]);
 }
@@ -50,8 +43,6 @@ export function ScreenRow() {
     setItems((prev) => [...prev.slice(1), prev[0]]);
     setShift(0);
   };
-
-  const front = items[0];
 
   return (
     <div
@@ -91,9 +82,6 @@ export function ScreenRow() {
             </div>
           ))}
         </div>
-      </div>
-      <div className="mt-5 font-mono-label text-[11px]" style={{ color: "var(--mist)" }}>
-        {CAPTION[front]}
       </div>
     </div>
   );

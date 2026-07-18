@@ -34,7 +34,7 @@ export function Nav() {
         className="pointer-events-auto flex w-full items-center justify-between gap-2 rounded-full pl-4 pr-2 md:w-auto"
         style={{
           height: 56,
-          backgroundColor: scrolled ? "rgba(251,252,251,0.88)" : "rgba(251,252,251,0.72)",
+          backgroundColor: scrolled ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.74)",
           border: "1px solid rgba(23,25,27,0.08)",
           backdropFilter: "saturate(180%) blur(20px)",
           WebkitBackdropFilter: "saturate(180%) blur(20px)",
@@ -55,9 +55,9 @@ export function Nav() {
               key={l.href}
               href={l.href}
               className="rounded-full px-3 py-2 text-[15px] font-medium transition-colors"
-              style={{ color: "var(--graphite)" }}
+              style={{ color: "var(--muted)" }}
               onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ink)")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--graphite)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
             >
               {l.label}
             </a>
@@ -69,9 +69,9 @@ export function Nav() {
           target="_blank"
           rel="noreferrer"
           className="ml-1 hidden items-center rounded-full px-3 py-2 text-[15px] font-medium transition-colors md:inline-flex"
-          style={{ color: "var(--graphite)" }}
+          style={{ color: "var(--muted)" }}
           onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ink)")}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "var(--graphite)")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
         >
           GitHub
         </a>
@@ -81,7 +81,7 @@ export function Nav() {
           className="ml-2 inline-flex h-10 items-center gap-2 rounded-full pl-3.5 pr-5 text-[15px] font-medium"
           style={{
             backgroundColor: scrolled ? "var(--ink)" : "transparent",
-            color: scrolled ? "var(--paper)" : "var(--ink)",
+            color: scrolled ? "var(--bg)" : "var(--ink)",
             border: scrolled ? "1px solid var(--ink)" : "1px solid rgba(23,25,27,0.18)",
             transition: "background-color 200ms ease, color 200ms ease, border-color 200ms ease",
           }}
