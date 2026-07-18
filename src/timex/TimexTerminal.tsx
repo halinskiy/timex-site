@@ -4,6 +4,7 @@ import { Panel } from "./Panel";
 import { fmtTime, fmtDuration, fmtStart, fmtFooterDate } from "./format";
 import { taskDuration, type TxSnapshot, type TxTask } from "./engine";
 import type { UseTimexResult } from "./useTimex";
+import { ExportView, HelpView, StatsView } from "./views";
 
 const C = TX.color;
 const G = TX.glyph;
@@ -166,8 +167,16 @@ export function TimexTerminal({ tx }: { tx: UseTimexResult }) {
         <StatusLine snap={snap} />
       </Panel>
 
-      <Panel title="Timeline" titleColor={C.text} className="min-h-0 flex-1 overflow-hidden" bodyClassName="h-full overflow-y-auto px-2 pb-2 pt-3">
-        <Timeline snap={snap} />
+      <Panel title={snap.viewTitle} titleColor={C.text} className="min-h-0 flex-1 overflow-hidden" bodyClassName="h-full overflow-y-auto px-2 pb-2 pt-3">
+        {snap.view === "export" ? (
+          <ExportView snap={snap} />
+        ) : snap.view === "help" ? (
+          <HelpView />
+        ) : snap.view === "stats" ? (
+          <StatsView snap={snap} />
+        ) : (
+          <Timeline snap={snap} />
+        )}
       </Panel>
 
       <div className="h-5 px-2 text-center" style={{ color: C.text }}>

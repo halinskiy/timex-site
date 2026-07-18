@@ -48,7 +48,7 @@ function Editorial({ op, eyebrow, title, body }: { op: number; eyebrow: string; 
 }
 
 export default function App() {
-  const tx = useTimex({ autoplay: true });
+  const tx = useTimex({ autoplay: !new URLSearchParams(window.location.search).has("noauto") });
   const wrapRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: wrapRef, offset: ["start start", "end end"] });
   const [p, setP] = useState(0);

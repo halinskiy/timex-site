@@ -22,6 +22,15 @@ export const STATE_COMMANDS: Record<TxState, string[]> = {
 const IDLE_PLACEHOLDER = "  What are you working on?  (/start to begin)";
 const RUN_PLACEHOLDER = "  What are you working on?  ";
 
+export type TxView = "timeline" | "export" | "help" | "stats";
+
+const VIEW_TITLE: Record<TxView, string> = {
+  timeline: "Timeline",
+  export: "Export",
+  help: "Help",
+  stats: "Statistics",
+};
+
 export interface TxSnapshot {
   state: TxState;
   tasks: TxTask[];
@@ -31,6 +40,8 @@ export interface TxSnapshot {
   placeholder: string;
   toast: string | null;
   now: Date;
+  view: TxView;
+  viewTitle: string;
 }
 
 export class TimexEngine {
@@ -42,6 +53,7 @@ export class TimexEngine {
   private toast: string | null = null;
   private toastUntil = 0;
   private clock = new Date();
+  private view: TxView = "timeline";
 
   // ── clock ────────────────────────────────────────────────────────────
   /** Advance simulated time by dt seconds (drives the timer + task duration). */
@@ -58,9 +70,16 @@ export class TimexEngine {
       lastSessionTasks: this.lastSession,
       active: this.active,
       input: this.input,
-      placeholder: this.state === "idle" ? IDLE_PLACEHOLDER : RUN_PLACEHOLDER,
+      placeholder:
+        this.view !== "timeline"
+          ? "  /back to return"
+          : this.state === "idle"
+          ? IDLE_PLACEHOLDER
+          : RUN_PLACEHOLDER,
       toast: this.toast,
       now: this.clock,
+      view: this.view,
+      viewTitle: VIEW_TITLE[this.view],
     };
   }
 
@@ -71,6 +90,7 @@ export class TimexEngine {
     this.active = 0;
     this.input = "";
     this.toast = null;
+    this.view = "timeline";
   }
 
   setInput(v: string): void {
@@ -78,10 +98,14 @@ export class TimexEngine {
   }
 
   // ── suggester + hints (mirror CommandSuggester / _command_hints) ───────
+  private commandsForContext(): string[] {
+    return this.view !== "timeline" ? ["/back"] : STATE_COMMANDS[this.state];
+  }
+
   suggestion(value: string): string {
     if (!value.startsWith("/")) return "";
     const val = value.toLowerCase();
-    for (const c of STATE_COMMANDS[this.state]) {
+    for (const c of this.commandsForContext()) {
       if (c.startsWith(val) && c !== val) return c;
     }
     return "";
@@ -90,7 +114,7 @@ export class TimexEngine {
   hints(value: string): { matches: string[]; noMatch: boolean } | null {
     if (value.length < 2 || !value.startsWith("/")) return null;
     const val = value.toLowerCase();
-    const matches = STATE_COMMANDS[this.state].filter((c) => c.startsWith(val));
+    const matches = this.commandsForContext().filter((c) => c.startsWith(val));
     if (matches.length === 0) return { matches: [], noMatch: true };
     return { matches: matches.slice().sort(), noMatch: false };
   }
@@ -107,18 +131,40 @@ export class TimexEngine {
 
   // ── submit ─────────────────────────────────────────────────────────────
   submit(rawInput: string): void {
-    const raw = this.resolvePartial(rawInput.trim());
+    let raw = rawInput.trim();
+    if (this.view !== "timeline") {
+      if (raw.startsWith("/") && "/back".startsWith(raw.toLowerCase())) raw = "/back";
+    } else {
+      raw = this.resolvePartial(raw);
+    }
     this.input = "";
     if (!raw) return;
     const cmd = raw.toLowerCase();
+
+    if (cmd === "/back") {
+      this.view = "timeline";
+      return;
+    }
+    if (cmd === "/export") {
+      this.view = "export";
+      return;
+    }
+    if (cmd === "/help") {
+      this.view = "help";
+      return;
+    }
+    if (cmd === "/stats") {
+      this.view = "stats";
+      return;
+    }
+    if (this.view !== "timeline") return; // inside a view, only the above apply
 
     if (cmd === "/start") return this.start();
     if (cmd === "/pause") return this.pause();
     if (cmd === "/resume") return this.resume();
     if (cmd === "/new") return this.newSession();
     if (cmd.startsWith("/")) {
-      // Sub-views (/stats, /export, /help …) are drawn later in the scroll.
-      this.setToast(`${cmd} opens further down the page`);
+      this.setToast(`${cmd} · not in this demo`);
       return;
     }
     this.logTask(raw);
