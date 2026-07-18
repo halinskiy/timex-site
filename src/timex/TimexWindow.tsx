@@ -15,11 +15,10 @@ export function TimexWindow({
 }) {
   return (
     <div
-      className={`flex flex-col overflow-hidden rounded-[11px] ${className}`}
+      className={`flex flex-col overflow-hidden rounded-[12px] ${className}`}
       style={{
         background: TX.color.bg,
-        border: "1px solid #2a2a2a",
-        boxShadow: "0 40px 80px -20px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.02)",
+        border: "1px solid rgba(255,255,255,0.08)",
         ...style,
       }}
     >

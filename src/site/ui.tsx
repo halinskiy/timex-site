@@ -20,11 +20,12 @@ export function Reveal({ children, delay = 0, className = "" }: { children: Reac
   );
 }
 
-export function SectionHead({ heading, subhead }: { heading: ReactNode; subhead?: ReactNode }) {
+export function SectionHead({ eyebrow, heading, subhead }: { eyebrow?: ReactNode; heading: ReactNode; subhead?: ReactNode }) {
   return (
     <Reveal>
-      <h2 className="section-heading">{heading}</h2>
-      {subhead && <p className="section-subhead">{subhead}</p>}
+      {eyebrow && <p className="eyebrow mb-5">{eyebrow}</p>}
+      <h2 className="heading">{heading}</h2>
+      {subhead && <p className="subhead">{subhead}</p>}
     </Reveal>
   );
 }
