@@ -43,7 +43,7 @@ export function DownloadButton({ label = "Download for Mac" }: { label?: string 
     <a
       href={DOWNLOAD}
       className="inline-flex h-[54px] items-center gap-2.5 rounded-full px-8 text-[16px] font-semibold transition-transform duration-200 hover:-translate-y-0.5"
-      style={{ background: "var(--amber)", color: "var(--amber-ink)" }}
+      style={{ background: "var(--ink)", color: "var(--bg)" }}
     >
       <AppleMark size={18} />
       {label}
@@ -59,8 +59,8 @@ export function GhostButton({ href = GITHUB, children = <>View on GitHub</> }: {
       target={external ? "_blank" : undefined}
       rel="noreferrer"
       className="inline-flex h-[54px] items-center gap-2 rounded-full px-8 text-[16px] font-medium transition-colors duration-200"
-      style={{ border: "1px solid rgba(255,255,255,0.2)", color: "var(--ink)" }}
-      onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.05)")}
+      style={{ border: "1px solid var(--rule)", color: "var(--ink)" }}
+      onMouseEnter={(e) => (e.currentTarget.style.background = "var(--subtle)")}
       onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
     >
       {children}

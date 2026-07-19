@@ -31,7 +31,7 @@ export function Nav() {
   return (
     <header
       className="fixed inset-x-0 top-0 z-50"
-      style={{ height: 56, background: "rgba(16,15,13,0.72)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", borderBottom: "1px solid var(--hair)" }}
+      style={{ height: 56, background: "rgba(255,255,255,0.82)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", borderBottom: "1px solid var(--hair)" }}
     >
       <div className="page-container flex h-full items-center justify-between">
         <a href="#top" className="mono text-[14px] font-medium tracking-[0.14em]" style={{ color: "var(--ink)" }}>TIMEX</a>
@@ -52,7 +52,7 @@ export function Nav() {
           <span className="mono hidden items-center gap-1.5 text-[11px] uppercase tracking-[0.12em] lg:inline-flex" style={{ color: "var(--muted)" }}>
             <span className="inline-block size-1.5 rounded-full" style={{ background: "var(--amber)" }} />menu bar
           </span>
-          <a href={DOWNLOAD} className="inline-flex h-9 items-center gap-2 rounded-full px-4 text-[14px] font-semibold" style={{ background: "var(--amber)", color: "var(--amber-ink)" }}>
+          <a href={DOWNLOAD} className="inline-flex h-9 items-center gap-2 rounded-full px-4 text-[14px] font-semibold" style={{ background: "var(--ink)", color: "var(--bg)" }}>
             <AppleMark size={15} /><span className="hidden sm:inline">Download</span>
           </a>
         </div>
